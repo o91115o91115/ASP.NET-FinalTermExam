@@ -1,0 +1,67 @@
+﻿@model WebApplication5.Models.orderSeach
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div class="form-group">
+        @using (Html.BeginForm("Index", "order", FormMethod.Post, new { id = "form" }))
+        {
+            <table class="table">
+                <tr><td>客戶編號</td><td colspan="3">@Html.TextBoxFor(model => model.CustomerID, new { @placeholder = "尚未輸入", @id = "custid" })</td></tr>
+                <tr><td>客戶名稱</td><td colspan="3">@Html.TextBoxFor(model => model.CompanyName, new { @placeholder = "尚未輸入", @id = "custname" })</td></tr>
+                <tr><td>聯絡人姓名</td><td colspan="3">@Html.TextBoxFor(model => model.ContactName, new { @placeholder = "尚未輸入", @id = "contactname" })</td></tr>
+                <tr><td>聯絡人職稱</td><td colspan="3">@Html.DropDownListFor(model => Model.ContactTitle, (List<SelectListItem>)ViewBag.cdata)</td></tr>
+                <tr><td></td><td colspan="3"><input type="submit" class="btn btn-info" value="查詢" /><input type="button" class="btn btn-info" value="清除" id="reset" />@Html.ActionLink("新增訂單", "Install", "order", new { @class = "btn btn-info" })</td></tr>
+            </table>
+
+        }
+    </div>
+        @if (ViewBag.data != null)
+        {
+            <div id="data">
+                <h3>查詢結果</h3>
+                <table class="table">
+                    <tr>
+                        <td>編號</td>
+                        <td>名稱</td>
+                        <td>聯絡人姓名</td>
+                        <td>聯絡人職稱</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    @foreach (var item in (List<WebApplication5.Models.orderSeach>)ViewBag.data)
+                    {
+                        <tr>
+                            <td>@item.CustomerID</td>
+                            <td>@item.CompanyName</td>
+                            <td>@item.ContactName</td>
+                            <td>@item.ContactTitle</td>
+                            <td>修改</td>
+                            <td>刪除</td>
+                        </tr>
+                    }
+                </table>
+
+            </div>
+        }
+</body>
+<script>
+    document.getElementById("reset").addEventListener("click", function () {
+        document.getElementById("custid").value = "";
+        document.getElementById("custname").value = "";
+        document.getElementById("contactname").value = "";
+        var data = document.getElementById("data");
+        document.body.removeChild(a);
+    });
+</script>
+</html>
